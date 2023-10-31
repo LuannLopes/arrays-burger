@@ -2,6 +2,16 @@ const list = document.querySelector("ul");
 const showAllButton = document.querySelector(".show-all");
 const mapAllButton = document.querySelector(".map-all");
 const sumAllButton = document.querySelector(".sum-all");
+const filterAllButton = document.querySelector(".filter-all");
+
+function formatCurrency(value) {
+  const newValue = value.toLocaleString("pt-br", {
+    style: "currency",
+    currency: "BRL",
+  });
+
+  return newValue;
+}
 
 function showAll(productsArray) {
   let myLi = "";
@@ -11,7 +21,7 @@ function showAll(productsArray) {
     <li>
       <img src="${product.src}" alt="${product.name}">
       <p>${product.name}</p>
-      <p class="item-price">R$ ${product.price}</p>
+      <p class="item-price"> ${formatCurrency(product.price)}</p>
     </li>`;
   });
 
@@ -32,10 +42,16 @@ function totalProductPrices() {
 
   list.innerHTML = `
     <li>
-        <p>O valor total dos items é R$ ${totalValue}</p>
+        <p>O valor total dos items é ${formatCurrency(totalValue)}</p>
      </li>`;
+}
+
+function filterProducts() {
+  const filterOnlyVegans = menuOptions.filter((product) => product.vegan);
+  showAll(filterOnlyVegans);
 }
 
 showAllButton.addEventListener("click", () => showAll(menuOptions));
 mapAllButton.addEventListener("click", mapProductPrices);
 sumAllButton.addEventListener("click", totalProductPrices);
+filterAllButton.addEventListener("click", filterProducts);
